@@ -14,7 +14,7 @@ class CreateVotePromisesTable extends Migration
     public function up()
     {
         Schema::create('vote_promises', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->timestamps();
             $table->unsignedBigInteger('party_id');
             $table->foreign('party_id')->references('id')->on('parties');

@@ -14,7 +14,7 @@ class CreateVotersTable extends Migration
     public function up()
     {
         Schema::create('voters', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('cognome');
             $table->string('nome');
             $table->string('citta_residenza')->nullable();
