@@ -42,10 +42,12 @@
 
         @if ($values->votePromises()->count() > 0)
         <div class="bg-white p-3 shadow rounded mt-3 flex text-white">
+            @if(Auth::user()->is_leader)
             <div class="bg-gray-900 m-1 rounded p-3 flex items-center">
                 <div class="text-xs uppercase mr-2">{{$values->preference["name"]}}</div>
                 <div class="text-xl">{{number_format($values->preference["percentage"] * 100,2)}}%</div>
             </div>
+            @endif
             <div class="bg-gray-900 m-1 rounded p-3 flex items-center">
                 <div class="text-xs uppercase mr-2">{{$values->list["name"]}}</div>
                 <div class="text-xl">{{number_format($values->list["percentage"] * 100,2)}}%</div>

@@ -33,8 +33,10 @@
                 </th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">@include('crm.includes.table._sort', ['field' => 'indirizzo_residenza', 'label' => 'Indirizzo'])</th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">@include('crm.includes.table._sort', ['field' => 'sezione', 'label' => 'Sezione'])</th>
+                @if(Auth::user()->is_leader)
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">Preferenza</th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Percentuale affidabilità</th>
+                @endif
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">Lista</th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Percentuale affidabilità</th>
             </tr>
@@ -45,8 +47,12 @@
                     <td class="p-2"><a href="/crm/voters/{{$voter->id}}">{{$voter->nome}}</a></td>
                     <td class="p-2">{{$voter->indirizzo_residenza}}</td>
                     <td class="p-2">{{$voter->sezione}}</td>
+
+                    @if(Auth::user()->is_leader)
                     <td class="p-2 text-xs w-8">{{$voter->preference["name"]??"-"}}</td>
                     <td class="p-2 text-right text-xs w-8">{{number_format(($voter->preference["percentage"]??1) * 100,2)}}%</td>
+                    @endif
+
                     <td class="p-2 text-xs w-8">{{$voter->list["name"]??"-"}}</td>
                     <td class="p-2 text-right text-xs w-8">{{number_format(($voter->list["percentage"]??1) * 100,2)}}%</td>
 
