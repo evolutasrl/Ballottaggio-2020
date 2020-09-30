@@ -20,7 +20,7 @@ class Voter extends Model
 
     protected $guarded = [];
     protected $dates = ['data_nascita'];
-    protected $appends = ['list', 'list_affidabilty', 'preference', 'preference_affidability'];
+    protected $appends = ['list',  'preference'];
 
     /**
      * The "type" of the auto-incrementing ID.
@@ -39,6 +39,11 @@ class Voter extends Model
     public function votePromises()
     {
         return $this->hasMany('App\Models\VotePromise');
+    }
+
+    public function toSearchableArray()
+    {
+        return $this->only('nome', 'cognome', 'indirizzo_residenza', 'sezione');
     }
 
     public function getListAttribute($value)
@@ -74,4 +79,6 @@ class Voter extends Model
             "percentage" => $percentage
         ];
     }
+
+
 }
