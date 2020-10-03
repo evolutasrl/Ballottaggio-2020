@@ -16,7 +16,7 @@ class VoterController extends Controller
         $sortField = $request->get('sort-field', 'updated_at');
         $sortDirection = $request->get('sort-direction', 'desc');
         $q = $request->get('q', '');
-        $voters = Voter::stringSearch($q)->orderBy($sortField, $sortDirection)->paginate(15);
+        $voters = Voter::search($q)->orderBy($sortField, $sortDirection)->paginate(15);
 
         return view('crm.voters.index', compact('voters'));
     }

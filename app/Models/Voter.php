@@ -13,7 +13,6 @@ use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 class Voter extends Model
 {
     use Searchable;
-    use TextSearchable;
     use HasFactory;
     use Uuid;
 
