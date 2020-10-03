@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crm;
 
 use App\Models\Voter;
+use App\Models\VotePromise;
 use App\Models\Candidate;
 use App\Http\Controllers\Controller;
 use App\Models\Party;
@@ -16,9 +17,22 @@ class VoterController extends Controller
         $sortField = $request->get('sort-field', 'updated_at');
         $sortDirection = $request->get('sort-direction', 'desc');
         $q = $request->get('q', '');
-        $voters = Voter::search($q)->orderBy($sortField, $sortDirection)->paginate(15);
+        if($q === ""){
+            $voters = Voter::orderBy($sortField, $sortDirection)->paginate(50);
+        }else{
+            $voters = Voter::search($q)->paginate(50);
+        }
 
-        return view('crm.voters.index', compact('voters'));
+
+
+        $coverage = [
+            "totalVoters" => Voter::count(), 
+            "votersWithData" => VotePromise::distinct('voter_id')->count('voter_id'),
+            "percentage" => VotePromise::distinct('voter_id')->count('voter_id') / Voter::count()
+        ];
+
+
+        return view('crm.voters.index', ['voters' => $voters, 'coverage' => $coverage ]);
     }
 
     public function create()
