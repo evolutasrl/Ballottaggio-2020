@@ -10,6 +10,20 @@
             </div>
         @endif
 
+
+        <div>
+
+            <div class="bg-gray-900 text-gray-100 p-3 rounded flex items-center my-2">
+                <div class="xs font-bold text-gray-600 flex-grow">AVANZAMENTO CARICAMENTO DATI</div>
+                <div class="flex items-center">
+                    <span class="text-2xl">{{$coverage['votersWithData']}}</span><span class="text-lg">/{{$coverage['totalVoters']}}</span>
+                    <span class="text-xl font-bold ml-3">{{number_format($coverage['percentage'],2)}}%</span>
+                </div>
+            </div>
+
+        </div>
+
+
         <div class="mb-3 flex items-center">
             <form action="" class="flex-1">
                 <div class="flex items-center">
