@@ -19,7 +19,9 @@
                 <input type="hidden" value="{{request('sort-direction','desc')}}" name="sort-direction">
                 <input type="hidden" value="{{request('sort-field','updated_at')}}" name="sort-field">
             </form>
+            @if(Auth::user()->is_leader)
             <a href="/crm/voters/create" class="ml-2 cursor-pointer rounded p-4 text-blue-100 bg-blue-900 font-bold uppercase tracking-wide text-xs">Crea</a>
+            @endif
         </div>
 
         <div class="overflow-auto">
