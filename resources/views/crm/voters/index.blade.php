@@ -55,6 +55,7 @@
                 @endif
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">Lista</th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Percentuale affidabilità</th>
+                <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Cancellato</th>
             </tr>
 
             @foreach($voters as $voter)
@@ -71,7 +72,9 @@
 
                     <td class="p-2 text-xs w-8">{{$voter->list["name"]??"-"}}</td>
                     <td class="p-2 text-right text-xs w-8">{{number_format(($voter->list["percentage"]??1) * 100,2)}}%</td>
-
+                    <td class="p-2 text-right text-xs w-8">@if ($voter->attivo == false)
+                        <span>&times;</span>
+                    @endif</td>
                 </tr>
             @endforeach
         </table>
