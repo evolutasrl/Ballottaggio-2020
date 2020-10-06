@@ -107,6 +107,7 @@ class import extends Command
                                 'citta_nascita' => $voter['nato_a'],
                                 'indirizzo_residenza' => $voter['residente'],
                                 'sezione' => $voter['sezione'],
+                                'attivo' => $voter['attivo']
                             ]
                         );
 
@@ -149,4 +150,4 @@ class import extends Command
 
         return ["cognomi" => $cognomi, "nomi" => $var[1]];
     }
-}
+}   

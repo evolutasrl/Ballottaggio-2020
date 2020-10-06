@@ -14,26 +14,13 @@ class Voter extends Model
 {
     use Searchable;
     use HasFactory;
-    use Uuid;
 
 
     protected $guarded = [];
     protected $dates = ['data_nascita'];
     protected $appends = ['list',  'preference'];
 
-    /**
-     * The "type" of the auto-incrementing ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
 
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
 
     public function votePromises()
     {
@@ -54,6 +41,7 @@ class Voter extends Model
 
 
         $party = $promises->groupBy('party_id')->max();
+
         $percentage = $party->count() / $promises->count();
 
         return [
