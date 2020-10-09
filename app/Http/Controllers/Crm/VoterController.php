@@ -18,9 +18,9 @@ class VoterController extends Controller
         $sortDirection = $request->get('sort-direction', 'desc');
         $q = $request->get('q', '');
         if($q === ""){
-            $voters = Voter::orderBy($sortField, $sortDirection)->paginate(50);
+            $voters = Voter::orderBy($sortField, $sortDirection)->paginate(20);
         }else{
-            $voters = Voter::search($q)->paginate(50);
+            $voters = Voter::search($q)->paginate(25);
         }
 
 
@@ -61,12 +61,12 @@ class VoterController extends Controller
 
     public function update(Request $request, Voter $voter)
     {
-   
+
             $validatedData = $request->validate($this->validator());
             $voter->update($validatedData);
 
             return redirect('crm/voters');
-  
+
     }
 
     public function destroy(Voter $voter)

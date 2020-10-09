@@ -72,7 +72,9 @@
 
                     <td class="p-2 text-xs w-8">{{$voter->list["name"]??"-"}}</td>
                     <td class="p-2 text-right text-xs w-8">{{number_format(($voter->list["percentage"]??1) * 100,2)}}%</td>
-                    <td class="p-2 text-right text-xs w-8">@if ($voter->attivo == false)
+                    <td class="p-2 text-right text-xs w-8">
+                        {{$voter->prefersCandidate(28) }}
+                    @if ($voter->attivo == false)
                         <span>&times;</span>
                     @endif</td>
                 </tr>
