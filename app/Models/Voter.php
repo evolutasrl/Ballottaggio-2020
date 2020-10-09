@@ -49,7 +49,7 @@ class Voter extends Model
         ];
     }
 
-    public function prefersCandidate($candidate)
+    public function prefersCandidate()
     {
         $totalPromises = DB::table('vote_promises')
             ->where('voter_id', '=', $this->id)
@@ -63,6 +63,26 @@ class Voter extends Model
                      ->where('candidate_id', '!=', null)
                      //->where('candidate', '=', $candidate)
                      ->groupBy('candidate_id')
+                     ->get();
+
+        return $promises->map(function ($promise) use ($totalPromises) {
+            $promise->percentage = $promise->count * 100 / $totalPromises;
+            return $promise;
+        });
+    }
+
+    public function prefersList()
+    {
+        $totalPromises = DB::table('vote_promises')
+            ->where('voter_id', '=', $this->id)
+            ->count();
+
+        $promises = DB::table('vote_promises')
+                    ->leftJoin('parties', 'party_id', '=', 'parties.id')
+                     ->select(DB::raw('count(*) as count, party_id, parties.nome'))
+                     ->where('voter_id', '=', $this->id)
+                     //->where('candidate', '=', $candidate)
+                     ->groupBy('party_id')
                      ->get();
 
         return $promises->map(function ($promise) use ($totalPromises) {

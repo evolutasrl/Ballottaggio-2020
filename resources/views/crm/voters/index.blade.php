@@ -39,7 +39,7 @@
         </div>
 
         <div class="overflow-auto">
-        <table class="w-full border-gray-300 shadow rounded ">
+        <table class="w-full border-gray-300 shadow rounded table-auto bg-white striped rounded overflow-hidden shadow border border-gray-600">
             <tr class="bg-blue-900">
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">
                     @include('crm.includes.table._sort', ['field' => 'cognome', 'label' => 'Cognome'])
@@ -49,31 +49,60 @@
                 </th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">@include('crm.includes.table._sort', ['field' => 'indirizzo_residenza', 'label' => 'Indirizzo'])</th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">@include('crm.includes.table._sort', ['field' => 'sezione', 'label' => 'Sezione'])</th>
-                @if(Auth::user()->is_leader)
-                <th class="text-xs text-blue-200 text-left px-2 py-6 ">Preferenza</th>
-                <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Percentuale affidabilità</th>
-                @endif
+
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">Lista</th>
-                <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Percentuale affidabilità</th>
+                <th class="text-xs text-blue-200 text-left px-2 py-6 ">Preferenze</th>
+
                 <th class="text-xs text-blue-200 text-left px-2 py-6 text-right">Cancellato</th>
             </tr>
 
             @foreach($voters as $voter)
-                <tr class="bg-white">
+                <tr class="odd:bg-gray-200">
                     <td class="p-2"><a href="/crm/voters/{{$voter->id}}">{{$voter->cognome}}</a></td>
                     <td class="p-2"><a href="/crm/voters/{{$voter->id}}">{{$voter->nome}}</a></td>
                     <td class="p-2">{{$voter->indirizzo_residenza}}</td>
                     <td class="p-2">{{$voter->sezione}}</td>
 
-                    @if(Auth::user()->is_leader)
-                    <td class="p-2 text-xs w-8">{{$voter->preference["name"]??"-"}}</td>
-                    <td class="p-2 text-right text-xs w-8">{{number_format(($voter->preference["percentage"]??1) * 100,2)}}%</td>
-                    @endif
 
-                    <td class="p-2 text-xs w-8">{{$voter->list["name"]??"-"}}</td>
-                    <td class="p-2 text-right text-xs w-8">{{number_format(($voter->list["percentage"]??1) * 100,2)}}%</td>
+
+                    <td class="p-2 text-xs">
+                        @foreach ($voter->prefersList() as $preference)
+
+                            <div class=" text-left my-1" style="overflow: hidden; display: block;">
+                                <div class="text-xs font-bold text-white uppercase" style="position:absolute; width:150px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">{{number_format($preference->percentage,2)}}% {{$preference->nome}}</div>
+                                <div class="text-xs font-bold mr-1 flex-grow flex">
+                                <div class="bg-blue-500 h-3 inline-block" style="width:{{$preference->percentage*1.5}}px;"></div>
+                                <div class="bg-gray-900 h-3 inline-block" style="width:{{(100-$preference->percentage)*1.5}}px; "></div>
+                                </div>
+                            </div>
+
+                        @endforeach
+                    </td>
+
+
+                    <td class="p-2 text-xs">
+                    @foreach ($voter->prefersCandidate() as $preference)
+                        @if (($preference->candidate_id == Auth::user()->candidate) || Auth::user()->is_leader)
+                            <div class=" text-left my-1 block overflow-hidden">
+                                <div class="text-xs font-bold text-white uppercase" style="position:absolute; width:150px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">{{number_format($preference->percentage,2)}}% {{$preference->nome}} {{$preference->cognome}}</div>
+                                <div class="text-xs font-bold mr-1 flex-grow flex">
+                                <div class="bg-blue-500 h-3 inline-block" style="width:{{$preference->percentage*1.5}}px;"></div>
+                                <div class="bg-gray-900 h-3 inline-block" style="width:{{((100-$preference->percentage)*1.5)}}px; "></div>
+                                </div>
+                            </div>
+                        @endif
+
+                    @endforeach
+                    </td>
+
                     <td class="p-2 text-right text-xs w-8">
-                        {{$voter->prefersCandidate(28) }}
+
+
+
+
+
+
+
                     @if ($voter->attivo == false)
                         <span>&times;</span>
                     @endif</td>
@@ -81,9 +110,11 @@
             @endforeach
         </table>
         </div>
+
         <div class="w-full flex mt-2 py-2">
             <div class="ml-auto">
-                {{ $voters->appends(request()->input())->links() }}
+                {{ $voters->appends(request()->input())->links('vendor.pagination.default') }}
+
             </div>
         </div>
 
