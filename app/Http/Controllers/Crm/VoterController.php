@@ -26,9 +26,9 @@ class VoterController extends Controller
 
 
         $coverage = [
-            "totalVoters" => Voter::count(), 
+            "totalVoters" => Voter::count(),
             "votersWithData" => VotePromise::distinct('voter_id')->count('voter_id'),
-            "percentage" => VotePromise::distinct('voter_id')->count('voter_id') / Voter::count()
+            "percentage" => (VotePromise::distinct('voter_id')->count('voter_id') / Voter::count() * 100)
         ];
 
 
