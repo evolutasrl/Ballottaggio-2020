@@ -43,8 +43,6 @@
             <tr class="bg-blue-900">
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">
                     @include('crm.includes.table._sort', ['field' => 'cognome', 'label' => 'Cognome'])
-                </th>
-                <th class="text-xs text-blue-200 text-left px-2 py-6 ">
                     @include('crm.includes.table._sort', ['field' => 'nome', 'label' => 'Nome'])
                 </th>
                 <th class="text-xs text-blue-200 text-left px-2 py-6 ">@include('crm.includes.table._sort', ['field' => 'indirizzo_residenza', 'label' => 'Indirizzo'])</th>
@@ -58,9 +56,8 @@
 
             @foreach($voters as $voter)
                 <tr class="odd:bg-gray-200">
-                    <td class="p-2"><a href="/crm/voters/{{$voter->id}}">{{$voter->cognome}}</a></td>
-                    <td class="p-2"><a href="/crm/voters/{{$voter->id}}">{{$voter->nome}}</a></td>
-                    <td class="p-2">{{$voter->indirizzo_residenza}}</td>
+                    <td class="p-2"><a href="/crm/voters/{{$voter->id}}">{{$voter->cognome}} {{$voter->nome}}</a></td>
+                    <td class="p-2 text-xs">{{$voter->indirizzo_residenza}}</td>
                     <td class="p-2">{{$voter->sezione}}</td>
 
 
